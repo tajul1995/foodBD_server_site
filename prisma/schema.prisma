@@ -13,22 +13,22 @@ datasource db {
   provider = "postgresql"
 }
 
-
 model ProviderProfile {
-  id       String @id @default(uuid())
-  userId   String @unique
+  id       String  @id @default(uuid())
+  userId   String  @unique
   shopName String
   address  String
   phone    String?
 
- 
+  // user   User    @relation(fields: [userId], references: [id])
   meals  Meal[]
   orders Order[]
 
   createdAt DateTime @default(now())
 }
+
 model Meal {
-  id          String   @id @default(uuid())
+  id          String  @id @default(uuid())
   title       String
   description String
   price       Float
@@ -47,6 +47,7 @@ model Meal {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model Order {
   id          String      @id @default(uuid())
   customerId  String
@@ -55,42 +56,44 @@ model Order {
   address     String
   totalAmount Float
 
-  
+  // customer User            @relation(fields: [customerId], references: [id])
   provider ProviderProfile @relation(fields: [providerId], references: [id])
 
   items OrderItem[]
 
   createdAt DateTime @default(now())
 }
+
 model OrderItem {
   id       String @id @default(uuid())
   orderId  String
   mealId   String
   quantity Int
-
-  order Order @relation(fields: [orderId], references: [id])
-  meal  Meal  @relation(fields: [mealId], references: [id])
+  // user     User   @relation(fields: [id], references: [id])
+  order    Order  @relation(fields: [orderId], references: [id])
+  meal     Meal   @relation(fields: [mealId], references: [id])
 }
+
 model Review {
-  id      String @id @default(uuid())
+  id      String  @id @default(uuid())
   rating  Int
   comment String?
 
   userId String
   mealId String
 
- 
   meal Meal @relation(fields: [mealId], references: [id])
 
   createdAt DateTime @default(now())
 }
 
 model Category {
-  id    String @id @default(uuid())
-  name  String @unique
+  id   String @id @default(uuid())
+  name String @unique
 
   meals Meal[]
 }
+
 enum Role {
   CUSTOMER
   PROVIDER
@@ -103,4 +106,67 @@ enum OrderStatus {
   READY
   DELIVERED
   CANCELLED
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
