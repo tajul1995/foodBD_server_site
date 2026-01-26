@@ -1,0 +1,106 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model ProviderProfile {
+  id       String @id @default(uuid())
+  userId   String @unique
+  shopName String
+  address  String
+  phone    String?
+
+ 
+  meals  Meal[]
+  orders Order[]
+
+  createdAt DateTime @default(now())
+}
+model Meal {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  price       Float
+  image       String?
+  isAvailable Boolean @default(true)
+
+  providerId String
+  categoryId String
+
+  provider ProviderProfile @relation(fields: [providerId], references: [id])
+  category Category        @relation(fields: [categoryId], references: [id])
+
+  orderItems OrderItem[]
+  reviews    Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Order {
+  id          String      @id @default(uuid())
+  customerId  String
+  providerId  String
+  status      OrderStatus @default(PLACED)
+  address     String
+  totalAmount Float
+
+  
+  provider ProviderProfile @relation(fields: [providerId], references: [id])
+
+  items OrderItem[]
+
+  createdAt DateTime @default(now())
+}
+model OrderItem {
+  id       String @id @default(uuid())
+  orderId  String
+  mealId   String
+  quantity Int
+
+  order Order @relation(fields: [orderId], references: [id])
+  meal  Meal  @relation(fields: [mealId], references: [id])
+}
+model Review {
+  id      String @id @default(uuid())
+  rating  Int
+  comment String?
+
+  userId String
+  mealId String
+
+ 
+  meal Meal @relation(fields: [mealId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id    String @id @default(uuid())
+  name  String @unique
+
+  meals Meal[]
+}
+enum Role {
+  CUSTOMER
+  PROVIDER
+  ADMIN
+}
+
+enum OrderStatus {
+  PLACED
+  PREPARING
+  READY
+  DELIVERED
+  CANCELLED
+}
