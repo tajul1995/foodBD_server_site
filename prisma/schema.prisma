@@ -12,25 +12,6 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
-model User {
-  id            String    @id
-  name          String
-  email         String  
-  emailVerified Boolean   @default(false)
-  image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  role          String?   @default("CUSTOMER")
-  phone         String?
-  sessions      Session[]
-  accounts      Account[]
-
-  @@unique([email])
-  @@map("user")
-  providers Provider[]
-  orders Order[]
-  reviews Review[]
-}
 
 model Provider {
   id       String  @id @default(uuid())
@@ -40,8 +21,8 @@ model Provider {
   address  String
   phone    String?
 
-  meals    Meal[]
-  orders   Order[]
+  meals  Meal[]
+  orders Order[]
 
   createdAt DateTime @default(now())
 }
@@ -77,7 +58,7 @@ model Meal {
 model Order {
   id          String      @id @default(uuid())
   customerId  String
-  customer    User        @relation(fields: [customerId], references: [id])
+  customer    User        @relation(fields: [customerId], references: [id],onDelete: Cascade)
   providerId  String
   provider    Provider    @relation(fields: [providerId], references: [id])
   status      OrderStatus @default(PLACED)
@@ -115,7 +96,7 @@ model Review {
   userId String
   mealId String
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id] ,onDelete: Cascade)
   meal Meal @relation(fields: [mealId], references: [id])
 
   createdAt DateTime @default(now())
@@ -127,6 +108,26 @@ enum Role {
   ADMIN
 }
 
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  role          String?   @default("CUSTOMER")
+  phone         String?
+  status        String?   @default("activate")
+  sessions      Session[]
+  accounts      Account[]
+
+  @@unique([email])
+  @@map("user")
+  reviews Review[]
+  orders Order[]
+  providers Provider[]
+}
 
 model Session {
   id        String   @id
@@ -175,3 +176,21 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+// provider
+// {
+//   "name": "masum mia1",
+//   "email": "masum2@gmail.com",
+//   "password": "12345678",
+//   "image": "https://example.com/image.png"
+
+// }
+
+
+// customer {
+//   "name": "shanta akter",
+//   "email": "shanta@gmail.com",
+//   "password": "12345678",
+//   "image": "https://example.com/image.png"
+
+// }
