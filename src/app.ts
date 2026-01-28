@@ -5,6 +5,7 @@ import cors from 'cors'
 import { ProviderRouter } from './modules/provider/provider.router';
 import { categoryRouter } from './modules/category/cotegory.router';
 import { mealRouter } from './modules/meal/meal.router';
+import { orderRouter } from './modules/order/order.router';
 
 const app= express()
 app.use(cors({
@@ -19,4 +20,5 @@ app.use(express.json())
 app.use('/api/provider',ProviderRouter)
 app.use('/api/category',categoryRouter)
 app.use('/api/meals',mealRouter)
+app.use('/api/orders',orderRouter)
 export default app

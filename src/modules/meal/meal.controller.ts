@@ -51,7 +51,29 @@ const getAllMeals=async(req:Request,res:Response)=>{
         }
 }
 
+const getMealById=async(req:Request,res:Response)=>{
+        try {
+            
+        const {id}=req.params
+
+        
+          const result=await mealService.getMealById(id as string)
+            res.status(200).json({
+            success:true,
+            message:'get single meal successfully',
+            data:result
+        })
+
+        } catch (error) {
+             res.status(404).json({
+            success:false,
+            message:'meals does not  found ',
+            
+        })
+        }
+}
 export const mealsController={
     createMeals,
-    getAllMeals
+    getAllMeals,
+    getMealById
 }

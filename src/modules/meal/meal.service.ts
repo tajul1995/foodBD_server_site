@@ -36,8 +36,21 @@ const getAllMeals=async(search:string)=>{
 
   })
 }
+const getMealById=async(id:string)=>{
+return await prisma.meal.findFirst(({
+    where:{
+        id
+    },
+    include:{
+        provider:true
+    }
+}))
+}
+
+
 
 export const mealService={
     createMeals,
-    getAllMeals
+    getAllMeals,
+    getMealById
 }

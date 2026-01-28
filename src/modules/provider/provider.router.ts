@@ -1,4 +1,4 @@
-import express from 'express'
+import express from "express"
 
 import { providerController } from './provider.controller'
 import auth, { UserRole } from '../../middleware/auth'
