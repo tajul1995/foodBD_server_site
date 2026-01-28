@@ -7,7 +7,7 @@ const createCategory=async(req:Request,res:Response)=>{
             
             const post= req.body
         
-            console.log(post)
+            // console.log(post)
           const result=await categoryService.createCategory(post.name)
             res.status(200).json({
             success:true,
@@ -42,8 +42,27 @@ const getAllCategory=async(req:Request,res:Response)=>{
         })
         }
 }
+const findCategoryByName=async(req:Request,res:Response)=>{
+        try {
+            
+            const {name}=req.params
+          const result=await categoryService.findCategoryByName(name as string)
+            res.status(200).json({
+            success:true,
+            message:'all category gate successfully',
+            data:result
+        })
 
+        } catch (error) {
+             res.status(404).json({
+            success:false,
+            message:'category does not  found ',
+            
+        })
+        }
+}
 export const categoryController={
     createCategory,
-    getAllCategory
+    getAllCategory,
+    findCategoryByName
 }

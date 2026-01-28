@@ -32,8 +32,10 @@ const createMeals=async(req:Request,res:Response)=>{
 const getAllMeals=async(req:Request,res:Response)=>{
         try {
             
-            
-          const result=await mealService.getAllMeals()
+        const {search}=req.query
+
+        const searchString= typeof search == 'string'?search:undefined
+          const result=await mealService.getAllMeals(searchString as string)
             res.status(200).json({
             success:true,
             message:'all meals gate successfully',

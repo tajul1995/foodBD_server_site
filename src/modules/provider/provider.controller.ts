@@ -9,7 +9,7 @@ const createProvider=async(req:Request,res:Response)=>{
             const post= req.body
             const fulluser= req.user
              post.userId=fulluser?.id
-            console.log(post)
+            console.log(post,fulluser)
             const result= await providerService.createProvider(post)
             res.status(200).json({
             success:true,
@@ -29,8 +29,8 @@ const getUniqueProvider=async(req:Request,res:Response)=>{
         try {
             
             
-            const id= req.user?.id
-            console.log(id)
+            const {id}= req.params
+             console.log(id)
             
              const result = await providerService.getUniqueProvider(id as string)
             res.status(200).json({
