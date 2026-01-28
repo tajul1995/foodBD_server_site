@@ -3,5 +3,5 @@ import { orderController } from "./order.controller"
 import auth, { UserRole } from "../../middleware/auth"
 
 const router= express.Router()
-router.post('/',auth(UserRole.PROVIDER,UserRole.CUSTOMER) , orderController.createOrder)
+router.post('/' ,auth(UserRole.CUSTOMER,UserRole.PROVIDER,UserRole.ADMIN), orderController.createOrder)
 export const orderRouter= router
