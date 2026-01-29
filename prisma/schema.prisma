@@ -41,7 +41,7 @@ model Meal {
   price       Float
   image       String?
   isAvailable Boolean @default(true)
-
+  
   providerId String
   categoryId String
 

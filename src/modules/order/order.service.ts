@@ -15,6 +15,10 @@ const createOrder=async(data:Omit<Order,"id"|"status">)=>{
     data
    })
 }
+const getAllOrders=async()=>{
+    return await prisma.order.findMany()
+}
 export const orderServices={
-    createOrder
+    createOrder,
+    getAllOrders
 }

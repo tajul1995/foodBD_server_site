@@ -1,5 +1,6 @@
 import { Request, Response } from "express"
 import { orderServices } from "./order.service"
+import { UserRole } from "../../middleware/auth"
 
 const createOrder=async(req:Request,res:Response)=>{
         try {
@@ -24,6 +25,37 @@ const createOrder=async(req:Request,res:Response)=>{
         })
         }
 }
+
+const getAllOrders=async(req:Request,res:Response)=>{
+        try {
+            
+            const permission=req.user
+            console.log(permission?.role)
+            if(permission?.role==UserRole.PROVIDER){
+                res.status(404).json({
+            success:false,
+            message:'unauthorized access',
+            
+            })}
+           
+             const result = await orderServices.getAllOrders ()
+            res.status(200).json({
+            success:true,
+            message:'  get all orders successfully',
+            data:result
+        })
+
+        } catch (error) {
+             res.status(404).json({
+            success:false,
+            message:'orders does not  found ',
+            
+        })
+        }
+}
+
+
 export const orderController={
-    createOrder
+    createOrder,
+    getAllOrders
 }

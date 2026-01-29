@@ -3,7 +3,16 @@ import { MealWhereInput } from "../../../generated/prisma/models"
 import { prisma } from "../../lib/prisma"
 
 
-const createMeals=async(data:Meal)=>{
+const createMeals=async(data:Meal,id:string)=>{
+   
+const findProvider= await prisma.provider.findUniqueOrThrow({
+    where:{
+        userId:id
+    }
+})
+if(findProvider){
+    data.providerId=findProvider.id
+}
     return await prisma.meal.create({
         data
     })

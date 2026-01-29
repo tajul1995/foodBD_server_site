@@ -14,7 +14,7 @@ const createMeals=async(req:Request,res:Response)=>{
         })
             }
             
-             const result = await mealService.createMeals(data)
+             const result = await mealService.createMeals(data,fullUser?.id as string)
             res.status(200).json({
             success:true,
             message:'  get provider successfully',
