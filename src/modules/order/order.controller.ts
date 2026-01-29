@@ -54,8 +54,39 @@ const getAllOrders=async(req:Request,res:Response)=>{
         }
 }
 
+const updateOrderStatus=async(req:Request,res:Response)=>{
+        try {
+            const body=req.body
+            const {id}=req.params
+            const permission=req.user
+            console.log(permission?.role)
+            if(permission?.role!==UserRole.PROVIDER){
+                res.status(404).json({
+            success:false,
+            message:'unauthorized access',
+            
+            })}
+           
+             const result = await orderServices.updateOrderStatus (id as string, body?.status )
+            res.status(200).json({
+            success:true,
+            message:'  get  orders successfully',
+            data:result
+        })
+
+        } catch (error) {
+             res.status(404).json({
+            success:false,
+            message:'orders does not  found ',
+            
+        })
+        }
+}
+
+
 
 export const orderController={
     createOrder,
-    getAllOrders
+    getAllOrders,
+    updateOrderStatus
 }

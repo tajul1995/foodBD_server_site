@@ -1,4 +1,4 @@
-import { Order } from "../../../generated/prisma/client"
+import { Order, OrderStatus } from "../../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
 
 const createOrder=async(data:Omit<Order,"id"|"status">)=>{
@@ -18,7 +18,18 @@ const createOrder=async(data:Omit<Order,"id"|"status">)=>{
 const getAllOrders=async()=>{
     return await prisma.order.findMany()
 }
+const updateOrderStatus=async(id:string,status:OrderStatus)=>{
+    return await prisma.order.update({
+        where:{
+            id
+        },
+        data:{
+            status 
+        }
+    })
+}
 export const orderServices={
     createOrder,
-    getAllOrders
+    getAllOrders,
+    updateOrderStatus
 }
