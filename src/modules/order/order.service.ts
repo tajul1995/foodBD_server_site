@@ -16,7 +16,11 @@ const createOrder=async(data:Omit<Order,"id"|"status">)=>{
    })
 }
 const getAllOrders=async()=>{
-    return await prisma.order.findMany()
+    return await prisma.order.findMany({
+        orderBy:{
+            createdAt:"desc"
+        }
+    })
 }
 const updateOrderStatus=async(id:string,status:OrderStatus)=>{
     return await prisma.order.update({
@@ -25,7 +29,8 @@ const updateOrderStatus=async(id:string,status:OrderStatus)=>{
         },
         data:{
             status 
-        }
+        },
+        
     })
 }
 export const orderServices={
