@@ -5,4 +5,5 @@ const router=express.Router()
 
 
 router.get('/'  ,userController.getAllUser)
+router.patch('/:id'  ,userController.updateUser)
 export const userRouter=router
