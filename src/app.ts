@@ -7,6 +7,8 @@ import { categoryRouter } from './modules/category/cotegory.router';
 import { mealRouter } from './modules/meal/meal.router';
 import { orderRouter } from './modules/order/order.router';
 import { userRouter } from './modules/user/user.router';
+import { itemRouter } from './modules/orderItems/item.router';
+import { reviewRouter } from './modules/review/review.router';
 
 const app= express()
 app.use(cors({
@@ -22,4 +24,6 @@ app.use('/api/category',categoryRouter)
 app.use('/api/meals',mealRouter)
 app.use('/api/orders',orderRouter)
 app.use('/api/users',userRouter)
+app.use('/api/items',itemRouter)
+app.use('/api/reviews',reviewRouter)
 export default app

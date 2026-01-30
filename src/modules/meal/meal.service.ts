@@ -46,6 +46,8 @@ const getAllMeals=async(search:string)=>{
   })
 }
 const getMealById=async(id:string)=>{
+     
+        
 return await prisma.meal.findFirst(({
     where:{
         id

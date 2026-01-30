@@ -1,3 +1,4 @@
+import { Verification } from './../../generated/prisma/client';
 
 import { NextFunction, Request, Response } from "express";
 import {auth as betterAuth} from "../lib/auth"
@@ -36,7 +37,7 @@ const auth=(...roles:string[])=>{
                     message: "You are not authorized!"
                 })
      }
-     if(!session.user.emailVerified){
+     if(!session.user.email){
         return  res.status(404).json({
                 success:true,
                 message:'email is not verified'

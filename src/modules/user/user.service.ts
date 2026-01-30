@@ -2,7 +2,11 @@ import { Role } from "../../../generated/prisma/enums"
 import { prisma } from "../../lib/prisma"
 
 const getAllUser=async()=>{
-  return await prisma.user.findMany()
+  return await prisma.user.findMany({
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
 }
 
 const updateUser=async(id:string,role:Role)=>{

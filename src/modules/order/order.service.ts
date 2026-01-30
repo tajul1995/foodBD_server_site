@@ -2,15 +2,9 @@ import { Order, OrderStatus } from "../../../generated/prisma/client"
 import { prisma } from "../../lib/prisma"
 
 const createOrder=async(data:Omit<Order,"id"|"status">)=>{
-    const provider=await prisma.provider.findUnique({
-        where:{
-            userId:data.customerId
-        }
-    })
-    if(provider){
-        data.providerId=provider.id
-    }
-    console.log("provider",provider)
+    
+    
+   
    return await prisma.order.create({
     data
    })
@@ -23,6 +17,13 @@ const getAllOrders=async()=>{
     })
 }
 const updateOrderStatus=async(id:string,status:OrderStatus)=>{
+    if(status=="CANCELLED"){
+        return await prisma.order.delete({
+            where:{
+                id
+            }
+        })
+    }
     return await prisma.order.update({
         where:{
             id
@@ -33,8 +34,16 @@ const updateOrderStatus=async(id:string,status:OrderStatus)=>{
         
     })
 }
+const getOrdersByid=async(id:string)=>{
+    return await prisma.order.findMany({
+        where:{
+            customerId:id
+        }
+    })
+}
 export const orderServices={
     createOrder,
     getAllOrders,
-    updateOrderStatus
+    updateOrderStatus,
+    getOrdersByid
 }
