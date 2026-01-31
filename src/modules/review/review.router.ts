@@ -3,5 +3,6 @@ import auth, { UserRole } from "../../middleware/auth"
 import { reviewController } from "./review.controller"
 
 const router=express.Router()
-router.post('/',auth(UserRole.CUSTOMER,UserRole.PROVIDER,UserRole.ADMIN),reviewController.createReviews)
+router.post('/',reviewController.createReviews)
+router.get('/',  reviewController.getAllReviews)
 export const reviewRouter=router

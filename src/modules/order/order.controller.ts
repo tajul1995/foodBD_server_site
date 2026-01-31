@@ -100,9 +100,9 @@ const getOrdersByid=async(req:Request,res:Response)=>{
             // message:'unauthorized access',
             
             // })}
-           const fullUser=req.user
+           const {id}=req.params
 
-             const result = await orderServices.getOrdersByid (fullUser?.id as string)
+             const result = await orderServices.getOrdersByid (id as string)
             res.status(200).json({
             success:true,
             message:'  get all orders successfully',

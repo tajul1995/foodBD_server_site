@@ -6,6 +6,10 @@ const createReviews=async(data:Review)=>{
     data
   })
 }
+const getAllReviews=async()=>{
+  return await prisma.review.findMany()
+}
 export const reviewServices={
-    createReviews
+    createReviews,
+    getAllReviews
 }
