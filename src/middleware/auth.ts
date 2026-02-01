@@ -31,25 +31,25 @@ const auth=(...roles:string[])=>{
       headers:req.headers as any,
     })
     
-     if(!session?.user){
+     if(!session?.session ||!session.user){
         return res.status(401).json({
                     success: false,
                     message: "You are not authorized!"
                 })
      }
-     if(!session.user.email){
-        return  res.status(404).json({
-                success:true,
-                message:'email is not verified'
-            })
-     }
+    //  if(!session.user.email){
+    //     return  res.status(404).json({
+    //             success:true,
+    //             message:'email is not verified'
+    //         })
+    //  }
      req.user={
         id:session?.user.id,
         name:session?.user.name,
         email:session?.user.email,
         role:session?.user.role as string
      }
-     if(roles.length&&!roles.includes(req.user.role)){
+     if(roles.length&&!roles.includes(req.user.role as UserRole)){
         return  res.status(404).json({
                 success:true,
                 message:'unauthorizea access'

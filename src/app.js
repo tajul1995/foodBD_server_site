@@ -1,7 +1,7 @@
-import express, { Request, Response } from 'express'
+import express from 'express';
 import { toNodeHandler } from "better-auth/node";
 import { auth } from './lib/auth';
-import cors from 'cors'
+import cors from 'cors';
 import { ProviderRouter } from './modules/provider/provider.router';
 import { categoryRouter } from './modules/category/cotegory.router';
 import { mealRouter } from './modules/meal/meal.router';
@@ -9,24 +9,18 @@ import { orderRouter } from './modules/order/order.router';
 import { userRouter } from './modules/user/user.router';
 import { itemRouter } from './modules/orderItems/item.router';
 import { reviewRouter } from './modules/review/review.router';
-
-const app= express()
+const app = express();
 app.use(cors({
-    origin:process.env.APP_URL || "http://localhost:3000",
-    credentials:true,
-    
-}))
-app.use(express.json())
+    origin: process.env.APP_URL || "http://localhost:3000",
+    credentials: true,
+}));
+app.use(express.json());
 app.all("/api/auth/*splat", toNodeHandler(auth));
-
-app.use('/api/provider',ProviderRouter)
-app.use('/api/category',categoryRouter)
-app.use('/api/meals',mealRouter)
-app.use('/api/orders',orderRouter)
-app.use('/api/users',userRouter)
-app.use('/api/items',itemRouter)
-app.use('/api/reviews',reviewRouter)
-app.get('/',(req:Request,res:Response)=>{
-    res.send({message:"hello world"})
-})
-export default app
+app.use('/api/provider', ProviderRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/meals', mealRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/users', userRouter);
+app.use('/api/items', itemRouter);
+app.use('/api/reviews', reviewRouter);
+export default app;

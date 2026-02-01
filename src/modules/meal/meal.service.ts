@@ -3,16 +3,16 @@ import { MealWhereInput } from "../../../generated/prisma/models"
 import { prisma } from "../../lib/prisma"
 
 
-const createMeals=async(data:Meal,id:string)=>{
-   
-const findProvider= await prisma.provider.findUniqueOrThrow({
+const createMeals=async(data:Meal,id : string)=>{
+   const findProvider= await prisma.provider.findUniqueOrThrow({
     where:{
-        userId:id
+        userId :id
     }
-})
+   })
 if(findProvider){
     data.providerId=findProvider.id
 }
+
     return await prisma.meal.create({
         data
     })
@@ -41,6 +41,8 @@ const getAllMeals=async(search:string)=>{
     },
     include:{
         provider:true
+      
+
     }
 
   })
@@ -48,12 +50,14 @@ const getAllMeals=async(search:string)=>{
 const getMealById=async(id:string)=>{
      
         
-return await prisma.meal.findFirst(({
+return await prisma.meal.findUniqueOrThrow(({
     where:{
         id
     },
     include:{
-        provider:true
+        provider:true,
+        reviews:true
+
     }
 }))
 }

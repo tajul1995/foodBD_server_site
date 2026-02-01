@@ -6,6 +6,7 @@ const createMeals=async(req:Request,res:Response)=>{
             
             const data=req.body
             const fullUser= req.user
+            console.log(fullUser)
             if(fullUser?.role==="CUSTOMER"){
             res.status(404).json({
             success:false,
@@ -13,8 +14,8 @@ const createMeals=async(req:Request,res:Response)=>{
            
         })
             }
-            
-             const result = await mealService.createMeals(data,fullUser?.id as string)
+            const id=fullUser?.id
+             const result = await mealService.createMeals(data,id as string)
             res.status(200).json({
             success:true,
             message:'  get provider successfully',
@@ -24,7 +25,7 @@ const createMeals=async(req:Request,res:Response)=>{
         } catch (error) {
              res.status(404).json({
             success:false,
-            message:'provider does not  created ',
+            message:'meals does not  created ',
             
         })
         }

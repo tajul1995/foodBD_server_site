@@ -7,9 +7,24 @@ const createReviews=async(data:Review)=>{
   })
 }
 const getAllReviews=async()=>{
-  return await prisma.review.findMany()
+  return await prisma.review.findMany({
+    include:{
+      user:true
+    },
+    orderBy:{
+      createdAt:"desc"
+    }
+  })
+}
+const deleteReviews=async(id:string)=>{
+  return await prisma.review.delete({
+    where:{
+      id
+    }
+  })
 }
 export const reviewServices={
     createReviews,
-    getAllReviews
+    getAllReviews,
+    deleteReviews
 }

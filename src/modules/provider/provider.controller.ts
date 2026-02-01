@@ -42,7 +42,7 @@ const getUniqueProvider=async(req:Request,res:Response)=>{
         } catch (error) {
              res.status(404).json({
             success:false,
-            message:'provider does not  created ',
+            message:'provider does not  found ',
             
         })
         }

@@ -177,7 +177,7 @@ model Verification {
   @@map("verification")
 }
 
-// provider
+// customer
 // {
 //   "name": "masum mia1",
 //   "email": "masum2@gmail.com",
@@ -187,7 +187,7 @@ model Verification {
 // }
 
 
-// customer {
+// provider {
 //   "name": "shanta akter",
 //   "email": "shanta@gmail.com",
 //   "password": "12345678",
@@ -201,6 +201,14 @@ model Verification {
 // {
 //   "name": "tajul islam masum",
 //   "email": "tajulislammasum@gmail.com",
+//   "password": "12345678",
+//   "image": "https://example.com/image.png"
+
+// }
+// customer
+// {
+//   "name": "munna",
+//   "email": "munna78@gmail.com",
 //   "password": "12345678",
 //   "image": "https://example.com/image.png"
 
