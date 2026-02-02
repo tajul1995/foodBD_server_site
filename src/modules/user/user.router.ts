@@ -4,6 +4,6 @@ import { userController } from "./user.controller"
 const router=express.Router()
 
 
-router.get('/',auth(UserRole.ADMIN), userController.getAllUser)
-router.patch('/:id',auth(UserRole.ADMIN)  ,userController.updateUser)
+router.get('/', userController.getAllUser)
+router.patch('/:id',userController.updateUser)
 export const userRouter=router

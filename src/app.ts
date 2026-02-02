@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import { toNodeHandler } from "better-auth/node";
 import { auth } from './lib/auth';
 import cors from 'cors'
@@ -26,7 +26,8 @@ app.use('/api/orders',orderRouter)
 app.use('/api/users',userRouter)
 app.use('/api/items',itemRouter)
 app.use('/api/reviews',reviewRouter)
-app.get('/',(req:Request,res:Response)=>{
-    res.send({message:"hello world"})
-})
+app.get("/", (_, res) => {
+  res.json({ message: "Backend running on Vercel 🚀" });
+});
+
 export default app
